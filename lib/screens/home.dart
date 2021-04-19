@@ -34,94 +34,11 @@ class _HomePageState extends State<HomePage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      shadowColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                    ),
-                    child: Column(
-                      children: [
-                        Image(image: AssetImage('assets/clock_icon.png')),
-                        SizedBox(height: 16),
-                        Text(
-                          'Clock',
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        )
-                      ],
-                    ),
-                    onPressed: () => print('Clock'),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      shadowColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                    ),
-                    child: Column(
-                      children: [
-                        Image(image: AssetImage('assets/alarm_icon.png')),
-                        SizedBox(height: 16),
-                        Text(
-                          'Alarm',
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        )
-                      ],
-                    ),
-                    onPressed: () => print('Clock'),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      shadowColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                    ),
-                    child: Column(
-                      children: [
-                        Image(image: AssetImage('assets/timer_icon.png')),
-                        SizedBox(height: 16),
-                        Text(
-                          'Timer',
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        )
-                      ],
-                    ),
-                    onPressed: () => print('Clock'),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(vertical: 16.0),
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      shadowColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                    ),
-                    child: Column(
-                      children: [
-                        Image(image: AssetImage('assets/stopwatch_icon.png')),
-                        SizedBox(height: 16),
-                        Text(
-                          'Stopwatch',
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        )
-                      ],
-                    ),
-                    onPressed: () => print('Clock'),
-                  ),
-                ),
+                buildMenuButton(path: 'assets/clock_icon.png', text: 'Clock'),
+                buildMenuButton(path: 'assets/alarm_icon.png', text: 'Alarm'),
+                buildMenuButton(path: 'assets/timer_icon.png', text: 'Timer'),
+                buildMenuButton(
+                    path: 'assets/stopwatch_icon.png', text: 'Stopwatch'),
               ],
             ),
             VerticalDivider(color: Colors.white54, width: 1),
@@ -176,6 +93,29 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Padding buildMenuButton({@required String path, @required String text}) {
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 16.0),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(Colors.transparent),
+          shadowColor: MaterialStateProperty.all(Colors.transparent),
+        ),
+        child: Column(
+          children: [
+            Image(image: AssetImage(path), height: 50, width: 50),
+            SizedBox(height: 16),
+            Text(
+              text,
+              style: TextStyle(fontSize: 14, color: Colors.white),
+            )
+          ],
+        ),
+        onPressed: () => print(text),
       ),
     );
   }
