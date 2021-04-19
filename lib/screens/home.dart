@@ -34,73 +34,93 @@ class _HomePageState extends State<HomePage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.transparent),
-                    shadowColor: MaterialStateProperty.all(Colors.transparent),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      shadowColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                    ),
+                    child: Column(
+                      children: [
+                        Image(image: AssetImage('assets/clock_icon.png')),
+                        SizedBox(height: 16),
+                        Text(
+                          'Clock',
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        )
+                      ],
+                    ),
+                    onPressed: () => print('Clock'),
                   ),
-                  child: Column(
-                    children: [
-                      Image(image: AssetImage('assets/clock_icon.png')),
-                      Text(
-                        'Clock',
-                        style: TextStyle(fontSize: 14, color: Colors.white),
-                      )
-                    ],
-                  ),
-                  onPressed: () => print('Clock'),
                 ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.transparent),
-                    shadowColor: MaterialStateProperty.all(Colors.transparent),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      shadowColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                    ),
+                    child: Column(
+                      children: [
+                        Image(image: AssetImage('assets/alarm_icon.png')),
+                        SizedBox(height: 16),
+                        Text(
+                          'Alarm',
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        )
+                      ],
+                    ),
+                    onPressed: () => print('Clock'),
                   ),
-                  child: Column(
-                    children: [
-                      Image(image: AssetImage('assets/alarm_icon.png')),
-                      Text(
-                        'Alarm',
-                        style: TextStyle(fontSize: 14, color: Colors.white),
-                      )
-                    ],
-                  ),
-                  onPressed: () => print('Clock'),
                 ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.transparent),
-                    shadowColor: MaterialStateProperty.all(Colors.transparent),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      shadowColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                    ),
+                    child: Column(
+                      children: [
+                        Image(image: AssetImage('assets/timer_icon.png')),
+                        SizedBox(height: 16),
+                        Text(
+                          'Timer',
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        )
+                      ],
+                    ),
+                    onPressed: () => print('Clock'),
                   ),
-                  child: Column(
-                    children: [
-                      Image(image: AssetImage('assets/timer_icon.png')),
-                      Text(
-                        'Timer',
-                        style: TextStyle(fontSize: 14, color: Colors.white),
-                      )
-                    ],
-                  ),
-                  onPressed: () => print('Clock'),
                 ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.transparent),
-                    shadowColor: MaterialStateProperty.all(Colors.transparent),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      shadowColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                    ),
+                    child: Column(
+                      children: [
+                        Image(image: AssetImage('assets/stopwatch_icon.png')),
+                        SizedBox(height: 16),
+                        Text(
+                          'Stopwatch',
+                          style: TextStyle(fontSize: 14, color: Colors.white),
+                        )
+                      ],
+                    ),
+                    onPressed: () => print('Clock'),
                   ),
-                  child: Column(
-                    children: [
-                      Image(image: AssetImage('assets/stopwatch_icon.png')),
-                      Text(
-                        'Stopwatch',
-                        style: TextStyle(fontSize: 14, color: Colors.white),
-                      )
-                    ],
-                  ),
-                  onPressed: () => print('Clock'),
                 ),
               ],
             ),
