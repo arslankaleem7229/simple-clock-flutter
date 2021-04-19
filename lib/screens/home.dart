@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:simple_clock_flutter/models/clock_view.dart';
 import 'package:intl/intl.dart';
@@ -13,8 +15,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Timer timer;
+  @override
+  void initState() {
+    timer = Timer.periodic(Duration(minutes: 1), (timer) => setState(() {}));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print('=========================Fuck=========================');
     width = MediaQuery.of(context).size.width;
     height = MediaQuery.of(context).size.height;
     var dateTime = DateTime.now();
