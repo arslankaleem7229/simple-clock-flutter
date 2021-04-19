@@ -9,10 +9,17 @@ class ClockView extends StatefulWidget {
 }
 
 class _ClockViewState extends State<ClockView> {
+  Timer timer;
   @override
   void initState() {
-    Timer.periodic(Duration(seconds: 1), (timer) => setState(() {}));
+    // timer = Timer.periodic(Duration(seconds: 1), (timer) => setState(() {}));
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    // timer.cancel();
+    super.dispose();
   }
 
   @override
@@ -36,7 +43,7 @@ class ClockPainter extends CustomPainter {
   // 60 sec / min = 360/60 = 6 degree
   @override
   void paint(Canvas canvas, Size size) {
-    print(datetime);
+    // print(datetime);
     double centerX = size.width / 2;
     double centerY = size.height / 2;
     Offset center = Offset(centerX, centerY);
