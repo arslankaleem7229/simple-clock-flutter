@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:simple_clock_flutter/screens/clock_view.dart';
+import 'package:simple_clock_flutter/models/clock_view.dart';
 import 'package:intl/intl.dart';
+import 'package:simple_clock_flutter/models/menu_button.dart';
+import 'package:simple_clock_flutter/models/text_widget.dart';
 
 double width;
 double height;
@@ -21,11 +23,7 @@ class _HomePageState extends State<HomePage> {
     var timeZone =
         dateTime.timeZoneOffset.toString().split('.').first.substring(0, 4);
     var timeZoneSign = '';
-    if (timeZone.startsWith('-')) {
-      timeZoneSign = '-';
-    } else {
-      timeZoneSign = '+';
-    }
+    if (!timeZone.startsWith('-')) timeZoneSign = '+ ';
     return Scaffold(
       backgroundColor: Color(0xFF2D2F41),
       body: SafeArea(
@@ -34,54 +32,72 @@ class _HomePageState extends State<HomePage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                buildMenuButton(path: 'assets/clock_icon.png', text: 'Clock'),
-                buildMenuButton(path: 'assets/alarm_icon.png', text: 'Alarm'),
-                buildMenuButton(path: 'assets/timer_icon.png', text: 'Timer'),
+                buildMenuButton(image: 'assets/clock_icon.png', label: 'Clock'),
+                buildMenuButton(image: 'assets/alarm_icon.png', label: 'Alarm'),
+                buildMenuButton(image: 'assets/timer_icon.png', label: 'Timer'),
                 buildMenuButton(
-                    path: 'assets/stopwatch_icon.png', text: 'Stopwatch'),
+                    image: 'assets/stopwatch_icon.png', label: 'Stopwatch'),
               ],
             ),
             VerticalDivider(color: Colors.white54, width: 1),
             Expanded(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 32),
+                padding: EdgeInsets.symmetric(horizontal: 22),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Clock",
-                      style: TextStyle(color: Colors.white, fontSize: 24),
-                    ),
-                    SizedBox(height: 35),
-                    Text(
-                      "$formattedTime",
-                      style: TextStyle(color: Colors.white, fontSize: 64),
-                    ),
-                    Text(
-                      "$formattedDate",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
-                    ),
-                    SizedBox(height: 15),
-                    ClockView(),
-                    SizedBox(height: 15),
-                    Text(
-                      "Timezone",
-                      style: TextStyle(color: Colors.white, fontSize: 24),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: Row(
+                    Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: kText(
+                            text: "Clock",
+                            fontWeight: FontWeight.w700,
+                            fontSize: 24)),
+                    Flexible(
+                      flex: 2,
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Icon(Icons.language, color: Colors.white, size: 30),
-                          SizedBox(width: 15),
+                          kText(text: formattedTime, fontSize: 64),
+                          kText(
+                              text: formattedDate,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w300)
+                        ],
+                      ),
+                    ),
+                    Flexible(
+                      flex: 6,
+                      fit: FlexFit.tight,
+                      child: Align(
+                        child: ClockModel(size: width / 1.5),
+                        alignment: Alignment.center,
+                      ),
+                    ),
+                    Flexible(
+                      flex: 4,
+                      fit: FlexFit.tight,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          kText(
+                              text: "Timezone",
+                              fontSize: 24,
+                              fontWeight: FontWeight.w500),
                           Padding(
-                            padding: EdgeInsets.only(top: 2.0),
-                            child: Text(
-                              "UTC: $timeZoneSign$timeZone",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                              textAlign: TextAlign.center,
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Icon(Icons.language,
+                                    color: Colors.white, size: 30),
+                                SizedBox(width: 15),
+                                Padding(
+                                    padding: EdgeInsets.only(top: 2.0),
+                                    child: kText(
+                                        text: "UTC: $timeZoneSign$timeZone",
+                                        fontSize: 20)),
+                              ],
                             ),
                           ),
                         ],
@@ -93,29 +109,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Padding buildMenuButton({@required String path, @required String text}) {
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 16.0),
-      child: ElevatedButton(
-        style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.transparent),
-          shadowColor: MaterialStateProperty.all(Colors.transparent),
-        ),
-        child: Column(
-          children: [
-            Image(image: AssetImage(path), height: 50, width: 50),
-            SizedBox(height: 16),
-            Text(
-              text,
-              style: TextStyle(fontSize: 14, color: Colors.white),
-            )
-          ],
-        ),
-        onPressed: () => print(text),
       ),
     );
   }
