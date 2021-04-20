@@ -14,7 +14,7 @@ class _ClockModelState extends State<ClockModel> {
   Timer timer;
   @override
   void initState() {
-    timer = Timer.periodic(Duration(seconds: 1), (timer) => setState(() {}));
+    // timer = Timer.periodic(Duration(seconds: 1), (timer) => setState(() {}));
     super.initState();
   }
 
