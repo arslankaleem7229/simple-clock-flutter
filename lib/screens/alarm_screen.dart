@@ -9,13 +9,13 @@ import 'package:simple_clock_flutter/models/alarm_info.dart';
 import 'package:simple_clock_flutter/models/data.dart';
 
 class AlarmScreen extends StatefulWidget {
-  AlarmScreen({
-    @required DateTime dateTime,
-    @required String formattedTime,
-    @required String formattedDate,
-    @required String timeZone,
-    @required String timeZoneSign,
-  });
+  // AlarmScreen({
+  //   @required DateTime dateTime,
+  //   @required String formattedTime,
+  //   @required String formattedDate,
+  //   @required String timeZone,
+  //   @required String timeZoneSign,
+  // });
 
   @override
   _AlarmScreenState createState() => _AlarmScreenState();
@@ -134,6 +134,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
                           MaterialStateProperty.all(Colors.transparent),
                     ),
                     onPressed: () {
+                      print(DateTime.now());
                       scheduleAlarm(
                           alarmInfo: alarms.first,
                           scheduledNotificationDateTime:

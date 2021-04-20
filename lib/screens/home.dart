@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:simple_clock_flutter/constants/theme_data.dart';
 import 'package:simple_clock_flutter/enums.dart';
-import 'package:simple_clock_flutter/models/clock_view.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_clock_flutter/models/data.dart';
 import 'package:simple_clock_flutter/models/menu_info.dart';
 import 'package:simple_clock_flutter/constants/text_widget.dart';
 import 'package:simple_clock_flutter/screens/alarm_screen.dart';
+import 'package:simple_clock_flutter/screens/clock_screen.dart';
 
 double width;
 
@@ -63,96 +63,23 @@ class _HomePageState extends State<HomePage> {
               child: Consumer<MenuInfo>(
                 builder: (context, value, child) {
                   return value.menuType == MenuType.clock
-                      ? buildClockScreen(
+                      ? ClockScreen(
                           dateTime: dateTime,
-                          formattedDate: formattedDate,
                           formattedTime: formattedTime,
-                          timeZone: timeZone,
-                          timeZoneSign: timeZoneSign,
-                        )
-                      : AlarmScreen(
-                          dateTime: dateTime,
                           formattedDate: formattedDate,
-                          formattedTime: formattedTime,
                           timeZone: timeZone,
-                          timeZoneSign: timeZoneSign,
-                        );
+                          timeZoneSign: timeZoneSign)
+                      : AlarmScreen();
+                  // dateTime: dateTime,
+                  // formattedDate: formattedDate,
+                  // formattedTime: formattedTime,
+                  // timeZone: timeZone,
+                  // timeZoneSign: timeZoneSign,
                 },
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Container buildClockScreen({
-    @required DateTime dateTime,
-    @required String formattedTime,
-    @required String formattedDate,
-    @required String timeZone,
-    @required String timeZoneSign,
-  }) {
-    return Container(
-      padding: EdgeInsets.only(left: 22, right: 22, top: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Flexible(
-              flex: 1,
-              fit: FlexFit.tight,
-              child: kText(
-                  text: "Clock", fontWeight: FontWeight.w700, fontSize: 30)),
-          Flexible(
-            flex: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                kText(text: formattedTime, fontSize: 64),
-                kText(
-                    text: formattedDate,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w300)
-              ],
-            ),
-          ),
-          Flexible(
-            flex: 6,
-            fit: FlexFit.tight,
-            child: Align(
-              child: ClockModel(size: width / 1.5),
-              alignment: Alignment.center,
-            ),
-          ),
-          Flexible(
-            flex: 4,
-            fit: FlexFit.tight,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                kText(
-                    text: "Timezone",
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(Icons.language, color: Colors.white, size: 30),
-                      SizedBox(width: 15),
-                      Padding(
-                          padding: EdgeInsets.only(top: 2.0),
-                          child: kText(
-                              text: "UTC: $timeZoneSign$timeZone",
-                              fontSize: 20)),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }
