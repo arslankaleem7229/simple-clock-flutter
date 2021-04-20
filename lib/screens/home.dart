@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:custom_switch_button/custom_switch_button.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -104,14 +105,14 @@ class _HomePageState extends State<HomePage> {
                   text: "Alarm", fontWeight: FontWeight.w700, fontSize: 30)),
           Expanded(
             child: ListView(
-                children: alarms.map((alarm) {
+                children: alarms.map<Widget>((alarm) {
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                margin: EdgeInsets.only(top: 20),
+                margin: EdgeInsets.only(bottom: 22),
                 // height: MediaQuery.of(context).size.height * 0.15,
                 // width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(35),
+                    borderRadius: BorderRadius.circular(24),
                     gradient: LinearGradient(
                       colors: alarm.gradientColor,
                       begin: Alignment.centerLeft,
@@ -180,18 +181,35 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             }).followedBy([
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                margin: EdgeInsets.only(top: 20),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(35),
-                  color: CustomColors.clockBG,
-                ),
-                child: Column(
-                  children: [
-                    Image.asset('assets/add_alarm.png'),
-                    kText(text: "Add Alarm", fontSize: 14)
-                  ],
+              DottedBorder(
+                strokeWidth: 3,
+                borderType: BorderType.RRect,
+                color: CustomColors.clockOutline,
+                radius: Radius.circular(24),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    color: CustomColors.clockBG,
+                  ),
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all(
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 20)),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      shadowColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                    ),
+                    onPressed: () {},
+                    child: Column(
+                      children: [
+                        Image.asset('assets/add_alarm.png', scale: 1.2),
+                        SizedBox(height: 10),
+                        kText(text: "Add Alarm", fontSize: 14),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ]).toList()),
