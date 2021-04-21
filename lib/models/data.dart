@@ -1,4 +1,3 @@
-import 'package:simple_clock_flutter/constants/theme_data.dart';
 import 'package:simple_clock_flutter/enums.dart';
 import 'package:simple_clock_flutter/models/alarm_info.dart';
 import 'package:simple_clock_flutter/models/menu_info.dart';
@@ -14,8 +13,14 @@ List<MenuInfo> menuItems = [
       title: 'Stopwatch', imageSource: 'assets/stopwatch_icon.png'),
 ];
 List<AlarmInfo> alarms = [
-  AlarmInfo(DateTime.now().add(Duration(hours: 1)),
-      title: "Office", isActive: true, gradientColor: GradientColors.sky),
-  AlarmInfo(DateTime.now().add(Duration(hours: 5)),
-      title: "Sports", isActive: false, gradientColor: GradientColors.fire),
+  AlarmInfo(
+      alarmDateTime: DateTime.now().add(Duration(hours: 1)),
+      title: "Office",
+      isPending: true,
+      gradientColorIndex: 1),
+  AlarmInfo(
+      alarmDateTime: DateTime.now().add(Duration(hours: 5)),
+      title: "Sports",
+      isPending: false,
+      gradientColorIndex: 2),
 ];
