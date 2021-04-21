@@ -73,4 +73,13 @@ class AlarmHelper {
     var db = await this.database;
     return await db.delete(tableAlarm, where: '$columnId = ?', whereArgs: [id]);
   }
+
+  Future<void> update(int id, int pending) async {
+    var db = await this.database;
+    await db.rawUpdate('''
+    UPDATE $tableAlarm 
+    SET isPending = $pending
+    WHERE id = $id
+    ''');
+  }
 }

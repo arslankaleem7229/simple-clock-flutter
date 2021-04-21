@@ -2,7 +2,7 @@ class AlarmInfo {
   int id;
   String title;
   DateTime alarmDateTime;
-  bool isPending;
+  int isPending;
   int gradientColorIndex;
 
   AlarmInfo(

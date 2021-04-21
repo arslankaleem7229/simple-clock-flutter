@@ -1,6 +1,7 @@
 import 'package:custom_switch_button/custom_switch_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_clock_flutter/constants/text_widget.dart';
@@ -20,16 +21,22 @@ class _AlarmScreenState extends State<AlarmScreen> {
   String _alarmTimeString;
   AlarmHelper _alarmHelper = AlarmHelper();
   Future<List<AlarmInfo>> _alarms;
+  List<AlarmInfo> _currentAlarms;
+  String _title = '';
 
   @override
   void initState() {
     _alarmTime = DateTime.now();
     _alarmHelper.initializeDatabase().then((value) {
       print('-------Database Initialized-------');
-      _alarms = _alarmHelper.getAlarms();
-      print(_alarms != null);
+      loadAlarms();
     });
     super.initState();
+  }
+
+  void loadAlarms() {
+    _alarms = _alarmHelper.getAlarms();
+    if (mounted) setState(() {});
   }
 
   @override
@@ -47,9 +54,12 @@ class _AlarmScreenState extends State<AlarmScreen> {
             child: FutureBuilder(
               future: _alarms,
               builder: (context, snapshot) {
-                if (snapshot.hasData)
+                if (snapshot.hasData) {
+                  _currentAlarms = snapshot.data;
                   return ListView(
-                      children: snapshot.data.map<Widget>((alarm) {
+                      children: snapshot.data.map<Widget>((AlarmInfo alarm) {
+                    bool _pending;
+                    _pending = alarm.isPending == 1 ? true : false;
                     var alarmTime =
                         DateFormat('hh:mm aa').format(alarm.alarmDateTime);
                     var gradientColor = GradientTemplate
@@ -102,13 +112,11 @@ class _AlarmScreenState extends State<AlarmScreen> {
                                   animationDuration:
                                       Duration(milliseconds: 300),
                                   checkedColor: GradientColors.sky.last,
-                                  checked: true,
+                                  checked: _pending,
                                 ),
-                                onTap: () {
-                                  setState(() {
-                                    // alarm.isPending = !alarm.isPending;
-                                  });
-                                },
+                                onTap: () => _pending == true
+                                    ? updateAlarm(alarm.id, 0)
+                                    : updateAlarm(alarm.id, 1),
                               ),
                             ],
                           ),
@@ -122,10 +130,12 @@ class _AlarmScreenState extends State<AlarmScreen> {
                                       .substring(11, 16),
                                   fontSize: 24,
                                   fontWeight: FontWeight.bold),
-                              Icon(
-                                Icons.keyboard_arrow_down_sharp,
+                              IconButton(
                                 color: Colors.white,
-                                size: 24,
+                                onPressed: () => deleteAlarm(alarm.id),
+                                icon: Icon(Icons.delete),
+                                iconSize: 24,
+                                padding: EdgeInsets.only(left: 25),
                               ),
                             ],
                           )
@@ -133,148 +143,159 @@ class _AlarmScreenState extends State<AlarmScreen> {
                       ),
                     );
                   }).followedBy([
-                    DottedBorder(
-                      strokeWidth: 3,
-                      borderType: BorderType.RRect,
-                      color: CustomColors.clockOutline,
-                      radius: Radius.circular(24),
-                      dashPattern: [5, 4],
-                      child: Container(
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(24),
-                          color: CustomColors.clockBG,
-                        ),
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all(
-                                  EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 20)),
-                              backgroundColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                              shadowColor:
-                                  MaterialStateProperty.all(Colors.transparent),
-                            ),
-                            onPressed: () {
-                              _alarmTimeString =
-                                  DateFormat('HH:mm').format(DateTime.now());
+                    if (_currentAlarms.length < 5)
+                      DottedBorder(
+                        strokeWidth: 3,
+                        borderType: BorderType.RRect,
+                        color: CustomColors.clockOutline,
+                        radius: Radius.circular(24),
+                        dashPattern: [5, 4],
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            color: CustomColors.clockBG,
+                          ),
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 20)),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Colors.transparent),
+                                shadowColor: MaterialStateProperty.all(
+                                    Colors.transparent),
+                              ),
+                              onPressed: () {
+                                _alarmTimeString =
+                                    DateFormat('HH:mm').format(DateTime.now());
 
-                              showModalBottomSheet(
-                                useRootNavigator: true,
-                                context: context,
-                                clipBehavior: Clip.antiAlias,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(24),
+                                showModalBottomSheet(
+                                  useRootNavigator: true,
+                                  context: context,
+                                  clipBehavior: Clip.antiAlias,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(24),
+                                    ),
                                   ),
-                                ),
-                                builder: (context) {
-                                  return StatefulBuilder(
-                                    builder: (context, setModalState) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(32),
-                                        child: Column(
-                                          children: [
-                                            ElevatedButton(
-                                              style: ButtonStyle(
-                                                backgroundColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.transparent),
-                                                shadowColor:
-                                                    MaterialStateProperty.all(
-                                                        Colors.transparent),
-                                              ),
-                                              onPressed: () async {
-                                                var selectedTime =
-                                                    await showTimePicker(
-                                                  context: context,
-                                                  initialTime: TimeOfDay.now(),
-                                                );
-                                                if (selectedTime != null) {
-                                                  final now = DateTime.now();
-                                                  var selectedDateTime =
-                                                      DateTime(
-                                                    now.year,
-                                                    now.month,
-                                                    now.day,
-                                                    selectedTime.hour,
-                                                    selectedTime.minute,
+                                  builder: (context) {
+                                    return StatefulBuilder(
+                                      builder: (context, setModalState) {
+                                        return Container(
+                                          padding: const EdgeInsets.all(32),
+                                          child: Column(
+                                            children: [
+                                              ElevatedButton(
+                                                style: ButtonStyle(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                          Colors.transparent),
+                                                  shadowColor:
+                                                      MaterialStateProperty.all(
+                                                          Colors.transparent),
+                                                ),
+                                                onPressed: () async {
+                                                  var selectedTime =
+                                                      await showTimePicker(
+                                                    context: context,
+                                                    initialTime:
+                                                        TimeOfDay.now(),
                                                   );
-                                                  _alarmTime = selectedDateTime;
-                                                  setModalState(() {
-                                                    _alarmTimeString =
-                                                        DateFormat('HH:mm')
-                                                            .format(
-                                                                selectedDateTime);
-                                                  });
-                                                }
-                                              },
-                                              child: Text(
-                                                _alarmTimeString,
-                                                style: TextStyle(
-                                                    fontSize: 32,
-                                                    color: Colors.black),
+                                                  if (selectedTime != null) {
+                                                    final now = DateTime.now();
+                                                    var selectedDateTime =
+                                                        DateTime(
+                                                            now.year,
+                                                            now.month,
+                                                            now.day,
+                                                            selectedTime.hour,
+                                                            selectedTime
+                                                                .minute);
+                                                    _alarmTime =
+                                                        selectedDateTime;
+                                                    setModalState(
+                                                      () {
+                                                        _alarmTimeString =
+                                                            DateFormat('HH:mm')
+                                                                .format(
+                                                                    selectedDateTime);
+                                                      },
+                                                    );
+                                                  }
+                                                },
+                                                child: Text(
+                                                  _alarmTimeString,
+                                                  style: TextStyle(
+                                                      fontSize: 32,
+                                                      color: Colors.black),
+                                                ),
                                               ),
-                                            ),
-                                            ListTile(
-                                              title: Text('Repeat'),
-                                              trailing:
-                                                  Icon(Icons.arrow_forward_ios),
-                                            ),
-                                            ListTile(
-                                              title: Text('Sound'),
-                                              trailing:
-                                                  Icon(Icons.arrow_forward_ios),
-                                            ),
-                                            ListTile(
-                                              title: Text('Title'),
-                                              trailing:
-                                                  Icon(Icons.arrow_forward_ios),
-                                            ),
-                                            FloatingActionButton.extended(
-                                              onPressed: () {
-                                                DateTime scheduleAlarmDateTime;
-                                                if (_alarmTime
-                                                    .isAfter(DateTime.now())) {
-                                                  scheduleAlarmDateTime =
-                                                      _alarmTime;
-                                                } else {
-                                                  scheduleAlarmDateTime =
-                                                      _alarmTime.add(
-                                                          Duration(days: 1));
-                                                }
-                                                var alarmInfo = AlarmInfo(
-                                                  alarmDateTime:
-                                                      scheduleAlarmDateTime,
-                                                  gradientColorIndex:
-                                                      alarms.length,
-                                                  title: 'alarm',
-                                                );
-                                                _alarmHelper
-                                                    .insertAlarm(alarmInfo);
-                                              },
-                                              icon: Icon(Icons.alarm),
-                                              label: Text('Save'),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
-                            child: Column(
-                              children: [
-                                Image.asset('assets/add_alarm.png', scale: 1.2),
-                                SizedBox(height: 10),
-                                kText(text: "Add Alarm", fontSize: 14),
-                              ],
-                            )),
-                      ),
-                    ),
+                                              ListTile(
+                                                title: Text('Repeat'),
+                                                trailing: Icon(
+                                                    Icons.arrow_forward_ios),
+                                                //trailing:DropdownButton<String>(
+                                                //   value: "One",
+                                                //   icon: const Icon(Icons.arrow_downward),
+                                                //   iconSize: 24,
+                                                //   elevation: 16,
+                                                //   style: const TextStyle(color: Colors.deepPurple),
+                                                //   underline: Container(
+                                                //     height: 2,
+                                                //     color: Colors.deepPurpleAccent,
+                                                //   ),
+                                                //   onChanged: (String? newValue) {
+                                                //     setState(() {
+                                                //       dropdownValue = newValue!;
+                                                //     });
+                                                //   },
+                                                //   items: <String>['One', 'Two', 'Free', 'Four']
+                                                //       .map<DropdownMenuItem<String>>((String value) {
+                                                //     return DropdownMenuItem<String>(
+                                                //       value: value,
+                                                //       child: Text(value),
+                                                //     );
+                                                //   }).toList(),
+                                                // );
+                                              ),
+                                              ListTile(
+                                                title: Text('Sound'),
+                                                trailing: Icon(
+                                                    Icons.arrow_forward_ios),
+                                              ),
+                                              TextField(),
+                                              FloatingActionButton.extended(
+                                                onPressed: onSaveAlarm,
+                                                icon: Icon(Icons.alarm),
+                                                label: Text('Save'),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                );
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset('assets/add_alarm.png',
+                                      scale: 1.2),
+                                  SizedBox(height: 10),
+                                  kText(text: "Add Alarm", fontSize: 14),
+                                ],
+                              )),
+                        ),
+                      )
+                    else
+                      Center(
+                          child: Text(
+                        'Only 5 alarms allowed!',
+                        style: TextStyle(color: Colors.white),
+                      )),
                   ]).toList());
-                else
+                } else
                   return Center(child: kText(text: 'Loading...', fontSize: 24));
               },
             ),
@@ -311,5 +332,36 @@ class _AlarmScreenState extends State<AlarmScreen> {
       platformChannelSpecifics,
       androidAllowWhileIdle: true,
     );
+  }
+
+  void deleteAlarm(int id) {
+    _alarmHelper.delete(id);
+    loadAlarms();
+  }
+
+  void onSaveAlarm() {
+    DateTime scheduleAlarmDateTime;
+    if (_alarmTime.isAfter(DateTime.now()))
+      scheduleAlarmDateTime = _alarmTime;
+    else
+      scheduleAlarmDateTime = _alarmTime.add(Duration(days: 1));
+
+    var alarmInfo = AlarmInfo(
+      alarmDateTime: scheduleAlarmDateTime,
+      gradientColorIndex: _currentAlarms.length,
+      title: 'alarm',
+      isPending: 1,
+    );
+    _alarmHelper.insertAlarm(alarmInfo);
+    scheduleAlarm(
+        scheduledNotificationDateTime: scheduleAlarmDateTime,
+        alarmInfo: alarmInfo);
+    Navigator.pop(context);
+    loadAlarms();
+  }
+
+  void updateAlarm(int id, int pending) {
+    _alarmHelper.update(id, pending);
+    loadAlarms();
   }
 }

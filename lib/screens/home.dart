@@ -11,6 +11,8 @@ import 'package:simple_clock_flutter/models/menu_info.dart';
 import 'package:simple_clock_flutter/constants/text_widget.dart';
 import 'package:simple_clock_flutter/screens/alarm_screen.dart';
 import 'package:simple_clock_flutter/screens/clock_screen.dart';
+import 'package:simple_clock_flutter/screens/stopwatch_screen.dart';
+import 'package:simple_clock_flutter/screens/timer_screen.dart';
 
 double width;
 
@@ -22,19 +24,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Timer timer;
-  @override
-  void initState() {
-    // timer = Timer.periodic(Duration(minutes: 1), (timer) => setState(() {}));
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // timer.cancel();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -69,12 +58,11 @@ class _HomePageState extends State<HomePage> {
                           formattedDate: formattedDate,
                           timeZone: timeZone,
                           timeZoneSign: timeZoneSign)
-                      : AlarmScreen();
-                  // dateTime: dateTime,
-                  // formattedDate: formattedDate,
-                  // formattedTime: formattedTime,
-                  // timeZone: timeZone,
-                  // timeZoneSign: timeZoneSign,
+                      : value.menuType == MenuType.alarm
+                          ? AlarmScreen()
+                          : value.menuType == MenuType.timer
+                              ? TimerScreen()
+                              : StopwatchScreen();
                 },
               ),
             ),

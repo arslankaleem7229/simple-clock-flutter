@@ -16,11 +16,11 @@ List<AlarmInfo> alarms = [
   AlarmInfo(
       alarmDateTime: DateTime.now().add(Duration(hours: 1)),
       title: "Office",
-      isPending: true,
+      isPending: 1,
       gradientColorIndex: 1),
   AlarmInfo(
       alarmDateTime: DateTime.now().add(Duration(hours: 5)),
       title: "Sports",
-      isPending: false,
+      isPending: 0,
       gradientColorIndex: 2),
 ];

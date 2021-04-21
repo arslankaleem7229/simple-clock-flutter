@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:simple_clock_flutter/constants/text_widget.dart';
 import 'package:simple_clock_flutter/models/clock_view.dart';
@@ -24,6 +26,22 @@ class ClockScreen extends StatefulWidget {
 }
 
 class _ClockScreenState extends State<ClockScreen> {
+  Timer timer;
+
+  @override
+  void initState() {
+    this.timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    this.timer.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
