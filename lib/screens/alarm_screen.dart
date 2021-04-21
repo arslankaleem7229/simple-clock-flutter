@@ -27,6 +27,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
     _alarmHelper.initializeDatabase().then((value) {
       print('-------Database Initialized-------');
       _alarms = _alarmHelper.getAlarms();
+      print(_alarms != null);
     });
     super.initState();
   }
@@ -49,12 +50,6 @@ class _AlarmScreenState extends State<AlarmScreen> {
                 if (snapshot.hasData)
                   return ListView(
                       children: snapshot.data.map<Widget>((alarm) {
-                    var _isPending;
-                    if (alarm.isPending == 0)
-                      _isPending = false;
-                    else
-                      _isPending = true;
-
                     var alarmTime =
                         DateFormat('hh:mm aa').format(alarm.alarmDateTime);
                     var gradientColor = GradientTemplate
@@ -107,11 +102,11 @@ class _AlarmScreenState extends State<AlarmScreen> {
                                   animationDuration:
                                       Duration(milliseconds: 300),
                                   checkedColor: GradientColors.sky.last,
-                                  checked: _isPending,
+                                  checked: true,
                                 ),
                                 onTap: () {
                                   setState(() {
-                                    alarm.isPending = !alarm.isPending;
+                                    // alarm.isPending = !alarm.isPending;
                                   });
                                 },
                               ),
@@ -199,11 +194,12 @@ class _AlarmScreenState extends State<AlarmScreen> {
                                                   final now = DateTime.now();
                                                   var selectedDateTime =
                                                       DateTime(
-                                                          now.year,
-                                                          now.month,
-                                                          now.day,
-                                                          selectedTime.hour,
-                                                          selectedTime.minute);
+                                                    now.year,
+                                                    now.month,
+                                                    now.day,
+                                                    selectedTime.hour,
+                                                    selectedTime.minute,
+                                                  );
                                                   _alarmTime = selectedDateTime;
                                                   setModalState(() {
                                                     _alarmTimeString =
@@ -253,7 +249,6 @@ class _AlarmScreenState extends State<AlarmScreen> {
                                                   gradientColorIndex:
                                                       alarms.length,
                                                   title: 'alarm',
-                                                  isPending: true,
                                                 );
                                                 _alarmHelper
                                                     .insertAlarm(alarmInfo);

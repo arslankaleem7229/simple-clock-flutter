@@ -30,6 +30,7 @@ class AlarmHelper {
 
   Future<Database> initializeDatabase() async {
     var dir = await getDatabasesPath();
+    print(dir);
     var path = dir + "alarm.db";
 
     var database = await openDatabase(
