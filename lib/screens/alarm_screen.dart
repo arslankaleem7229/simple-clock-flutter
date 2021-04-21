@@ -1,7 +1,6 @@
 import 'package:custom_switch_button/custom_switch_button.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:simple_clock_flutter/constants/text_widget.dart';
@@ -9,7 +8,6 @@ import 'package:simple_clock_flutter/constants/theme_data.dart';
 import 'package:simple_clock_flutter/main.dart';
 import 'package:simple_clock_flutter/models/alarm_helper.dart';
 import 'package:simple_clock_flutter/models/alarm_info.dart';
-import 'package:simple_clock_flutter/models/data.dart';
 
 class AlarmScreen extends StatefulWidget {
   @override
@@ -17,12 +15,19 @@ class AlarmScreen extends StatefulWidget {
 }
 
 class _AlarmScreenState extends State<AlarmScreen> {
+  TextEditingController _controller = TextEditingController();
   DateTime _alarmTime;
   String _alarmTimeString;
   AlarmHelper _alarmHelper = AlarmHelper();
   Future<List<AlarmInfo>> _alarms;
   List<AlarmInfo> _currentAlarms;
   String _title = '';
+  String _enableStatus;
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -60,8 +65,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
                       children: snapshot.data.map<Widget>((AlarmInfo alarm) {
                     bool _pending;
                     _pending = alarm.isPending == 1 ? true : false;
-                    var alarmTime =
-                        DateFormat('hh:mm aa').format(alarm.alarmDateTime);
+
                     var gradientColor = GradientTemplate
                         .gradientTemplate[alarm.gradientColorIndex].colors;
                     return Container(
@@ -184,7 +188,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
                                       builder: (context, setModalState) {
                                         return Container(
                                           padding: const EdgeInsets.all(32),
-                                          child: Column(
+                                          child: ListView(
                                             children: [
                                               ElevatedButton(
                                                 style: ButtonStyle(
@@ -233,40 +237,117 @@ class _AlarmScreenState extends State<AlarmScreen> {
                                               ),
                                               ListTile(
                                                 title: Text('Repeat'),
-                                                trailing: Icon(
-                                                    Icons.arrow_forward_ios),
-                                                //trailing:DropdownButton<String>(
-                                                //   value: "One",
-                                                //   icon: const Icon(Icons.arrow_downward),
-                                                //   iconSize: 24,
-                                                //   elevation: 16,
-                                                //   style: const TextStyle(color: Colors.deepPurple),
-                                                //   underline: Container(
-                                                //     height: 2,
-                                                //     color: Colors.deepPurpleAccent,
-                                                //   ),
-                                                //   onChanged: (String? newValue) {
-                                                //     setState(() {
-                                                //       dropdownValue = newValue!;
-                                                //     });
-                                                //   },
-                                                //   items: <String>['One', 'Two', 'Free', 'Four']
-                                                //       .map<DropdownMenuItem<String>>((String value) {
-                                                //     return DropdownMenuItem<String>(
-                                                //       value: value,
-                                                //       child: Text(value),
-                                                //     );
-                                                //   }).toList(),
-                                                // );
+                                                // trailing: Icon(
+                                                //     Icons.arrow_forward_ios),
+                                                trailing:
+                                                    DropdownButton<String>(
+                                                  value: "Enable",
+                                                  icon: const Icon(
+                                                      Icons.arrow_downward),
+                                                  iconSize: 24,
+                                                  elevation: 16,
+                                                  style: const TextStyle(
+                                                      color: Colors.deepPurple),
+                                                  underline: Container(
+                                                    height: 2,
+                                                    color:
+                                                        Colors.deepPurpleAccent,
+                                                  ),
+                                                  onChanged: (String newValue) {
+                                                    setState(() {
+                                                      _enableStatus = newValue;
+                                                    });
+                                                  },
+                                                  items: <String>[
+                                                    'Enable',
+                                                    'Disable'
+                                                  ].map<
+                                                          DropdownMenuItem<
+                                                              String>>(
+                                                      (String value) {
+                                                    return DropdownMenuItem<
+                                                        String>(
+                                                      value: value,
+                                                      child: Text(value),
+                                                    );
+                                                  }).toList(),
+                                                ),
                                               ),
                                               ListTile(
                                                 title: Text('Sound'),
                                                 trailing: Icon(
                                                     Icons.arrow_forward_ios),
                                               ),
-                                              TextField(),
+                                              Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    horizontal: 10,
+                                                    vertical: 20),
+                                                child: TextField(
+                                                  onChanged: (value) {
+                                                    _title = value;
+                                                  },
+                                                  decoration: InputDecoration(
+                                                    enabledBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(16.0),
+                                                      ),
+                                                      borderSide: BorderSide(
+                                                        color: Colors.blueGrey,
+                                                      ),
+                                                    ),
+                                                    focusedBorder:
+                                                        OutlineInputBorder(
+                                                      borderRadius:
+                                                          BorderRadius.all(
+                                                        Radius.circular(16.0),
+                                                      ),
+                                                      borderSide: BorderSide(
+                                                        color:
+                                                            Colors.blueAccent,
+                                                      ),
+                                                    ),
+                                                    border: OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                          Radius.circular(16.0),
+                                                        ),
+                                                        borderSide: BorderSide(
+                                                          color:
+                                                              Colors.blueAccent,
+                                                        )),
+                                                    labelText: "Title",
+                                                    labelStyle: TextStyle(
+                                                      color: Colors.lightBlue,
+                                                      fontSize: 24,
+                                                    ),
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                  controller: _controller,
+                                                  style: TextStyle(
+                                                    color: Colors.redAccent,
+                                                    fontWeight: FontWeight.w300,
+                                                  ),
+                                                  cursorColor: Colors.redAccent,
+                                                  cursorWidth: 1.5,
+                                                  maxLength: 10,
+                                                ),
+                                              ),
                                               FloatingActionButton.extended(
-                                                onPressed: onSaveAlarm,
+                                                onPressed: () {
+                                                  int status;
+                                                  if (equalsIgnoreCase(
+                                                      _enableStatus,
+                                                      "Enable")) {
+                                                    status = 1;
+                                                  } else
+                                                    status = 0;
+                                                  _controller.clear();
+                                                  onSaveAlarm(
+                                                      title: _title,
+                                                      status: status);
+                                                },
                                                 icon: Icon(Icons.alarm),
                                                 label: Text('Save'),
                                               ),
@@ -339,7 +420,11 @@ class _AlarmScreenState extends State<AlarmScreen> {
     loadAlarms();
   }
 
-  void onSaveAlarm() {
+  bool equalsIgnoreCase(String string1, String string2) {
+    return string1?.toLowerCase() == string2?.toLowerCase();
+  }
+
+  void onSaveAlarm({String title, int status}) {
     DateTime scheduleAlarmDateTime;
     if (_alarmTime.isAfter(DateTime.now()))
       scheduleAlarmDateTime = _alarmTime;
@@ -349,8 +434,8 @@ class _AlarmScreenState extends State<AlarmScreen> {
     var alarmInfo = AlarmInfo(
       alarmDateTime: scheduleAlarmDateTime,
       gradientColorIndex: _currentAlarms.length,
-      title: 'alarm',
-      isPending: 1,
+      title: title,
+      isPending: status,
     );
     _alarmHelper.insertAlarm(alarmInfo);
     scheduleAlarm(
