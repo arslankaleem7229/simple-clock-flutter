@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_clock_flutter/models/timer_view.dart';
 
 class TimerScreen extends StatefulWidget {
   @override
@@ -8,8 +9,6 @@ class TimerScreen extends StatefulWidget {
 class _TimerScreenState extends State<TimerScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("Timer"),
-    );
+    return TimerModel(size: 250);
   }
 }
