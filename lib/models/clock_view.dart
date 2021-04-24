@@ -12,15 +12,18 @@ class ClockModel extends StatefulWidget {
 
 class _ClockModelState extends State<ClockModel> {
   Timer timer;
+
   @override
   void initState() {
-    // timer = Timer.periodic(Duration(seconds: 1), (timer) => setState(() {}));
+    this.timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {});
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    // timer.cancel();
+    this.timer.cancel();
     super.dispose();
   }
 

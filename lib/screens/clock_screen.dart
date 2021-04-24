@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:simple_clock_flutter/constants/text_widget.dart';
 import 'package:simple_clock_flutter/models/clock_view.dart';
 
@@ -26,22 +27,6 @@ class ClockScreen extends StatefulWidget {
 }
 
 class _ClockScreenState extends State<ClockScreen> {
-  Timer timer;
-
-  @override
-  void initState() {
-    this.timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {});
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    this.timer.cancel();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     width = MediaQuery.of(context).size.width;
@@ -61,7 +46,7 @@ class _ClockScreenState extends State<ClockScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                kText(text: widget.formattedTime, fontSize: 64),
+                DigitalClockWidget(),
                 kText(
                     text: widget.formattedDate,
                     fontSize: 20,
@@ -109,5 +94,41 @@ class _ClockScreenState extends State<ClockScreen> {
         ],
       ),
     );
+  }
+}
+
+class DigitalClockWidget extends StatefulWidget {
+  @override
+  _DigitalClockWidgetState createState() => _DigitalClockWidgetState();
+}
+
+class _DigitalClockWidgetState extends State<DigitalClockWidget> {
+  Timer timer;
+
+  var formattedTime = DateFormat('HH:mm').format(DateTime.now());
+  @override
+  void initState() {
+    this.timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      //condition to check weather the minute is increased or not
+
+      if (DateTime.now().add(Duration(seconds: -1)).minute !=
+          DateTime.now().minute) {
+        setState(() {
+          formattedTime = DateFormat('HH:mm').format(DateTime.now());
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    this.timer.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return kText(text: formattedTime, fontSize: 64);
   }
 }

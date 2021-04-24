@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:simple_clock_flutter/constants/text_widget.dart';
+import 'package:simple_clock_flutter/constants/theme_data.dart';
 
 class TimerModel extends StatefulWidget {
   final double size;
@@ -92,107 +93,120 @@ class _TimerModelState extends State<TimerModel> with TickerProviderStateMixin {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 50.0,
-                height: 100.0,
-                child: ListWheelScrollView.useDelegate(
-                  squeeze: 0.5,
-                  itemExtent: 25.0,
-                  diameterRatio: 1.5,
+          kText(text: "Set Timer", fontSize: 20),
+          Container(
+            padding: EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(35),
+              gradient: LinearGradient(colors: GradientColors.sky),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 50.0,
+                  height: 100.0,
+                  child: ListWheelScrollView.useDelegate(
+                    squeeze: 0.5,
+                    itemExtent: 25.0,
+                    diameterRatio: 1.5,
 
-                  onSelectedItemChanged: (hrs) {
-                    setState(() {
-                      hrsValue = (hrs != null || hrs != 0) ? hrs : 0;
-                    });
-                  },
-                  controller: FixedExtentScrollController(initialItem: 00),
-                  // useMagnifier: true,
-                  childDelegate: ListWheelChildLoopingListDelegate(
-                    children: List<Widget>.generate(
-                      12,
-                      (int index) {
-                        return _TimeText(text: index.toString());
-                      },
+                    onSelectedItemChanged: (hrs) {
+                      setState(() {
+                        hrsValue = (hrs != null || hrs != 0) ? hrs : 0;
+                      });
+                    },
+                    controller: FixedExtentScrollController(initialItem: 00),
+                    // useMagnifier: true,
+                    childDelegate: ListWheelChildLoopingListDelegate(
+                      children: List<Widget>.generate(
+                        12,
+                        (int index) {
+                          return _TimeText(text: index.toString());
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(width: 10.0),
-              kText(
-                  text: ':',
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black),
-              SizedBox(width: 10.0),
-              Container(
-                width: 50.0,
-                height: 100.0,
-                child: ListWheelScrollView.useDelegate(
-                  diameterRatio: 1.5,
-                  onSelectedItemChanged: (min) {
-                    minValue = (min != null || min != 0) ? min : 0;
-                  },
-                  controller: FixedExtentScrollController(initialItem: 00),
-                  squeeze: 0.5,
-                  itemExtent: 25.0,
-                  // overAndUnderCenterOpacity: 0.5,
-                  clipBehavior: Clip.antiAlias,
-                  // useMagnifier: true,
-                  childDelegate: ListWheelChildLoopingListDelegate(
-                    children: List<Widget>.generate(
-                      60,
-                      (int index) {
-                        return _TimeText(text: index.toString());
-                      },
+                SizedBox(width: 10.0),
+                kText(
+                    text: ':',
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black),
+                SizedBox(width: 10.0),
+                Container(
+                  width: 50.0,
+                  height: 100.0,
+                  child: ListWheelScrollView.useDelegate(
+                    diameterRatio: 1.5,
+                    onSelectedItemChanged: (min) {
+                      minValue = (min != null || min != 0) ? min : 0;
+                    },
+                    controller: FixedExtentScrollController(initialItem: 00),
+                    squeeze: 0.5,
+                    itemExtent: 25.0,
+                    // overAndUnderCenterOpacity: 0.5,
+                    clipBehavior: Clip.antiAlias,
+                    // useMagnifier: true,
+                    childDelegate: ListWheelChildLoopingListDelegate(
+                      children: List<Widget>.generate(
+                        60,
+                        (int index) {
+                          return _TimeText(text: index.toString());
+                        },
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(width: 10.0),
-              kText(
-                  text: ':',
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black),
-              SizedBox(width: 10.0),
-              Container(
-                width: 50.0,
-                height: 100.0,
-                child: ListWheelScrollView.useDelegate(
-                  childDelegate: ListWheelChildLoopingListDelegate(
-                    children: List<Widget>.generate(
-                      60,
-                      (int index) {
-                        return _TimeText(text: index.toString());
-                      },
+                SizedBox(width: 10.0),
+                kText(
+                    text: ':',
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black),
+                SizedBox(width: 10.0),
+                Container(
+                  width: 50.0,
+                  height: 100.0,
+                  child: ListWheelScrollView.useDelegate(
+                    childDelegate: ListWheelChildLoopingListDelegate(
+                      children: List<Widget>.generate(
+                        60,
+                        (int index) {
+                          return _TimeText(text: index.toString());
+                        },
+                      ),
                     ),
+                    diameterRatio: 1.5,
+                    onSelectedItemChanged: (sec) {
+                      secValue = (sec != null || sec != 0) ? sec : 0;
+                    },
+                    controller: FixedExtentScrollController(initialItem: 00),
+                    squeeze: 0.5,
+                    itemExtent: 25.0,
+                    // useMagnifier: true,
                   ),
-                  diameterRatio: 1.5,
-                  onSelectedItemChanged: (sec) {
-                    secValue = (sec != null || sec != 0) ? sec : 0;
-                  },
-                  controller: FixedExtentScrollController(initialItem: 00),
-                  squeeze: 0.5,
-                  itemExtent: 25.0,
-                  // useMagnifier: true,
                 ),
-              ),
-              SizedBox(width: 10.0),
-            ],
+                SizedBox(width: 10.0),
+              ],
+            ),
           ),
           SizedBox(height: 50),
           Container(
+            decoration: BoxDecoration(
+              color: Colors.amber,
+              borderRadius: BorderRadius.circular(35),
+            ),
+            padding: EdgeInsets.all(8.0),
             margin: EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 FloatingActionButton(
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: Color(0xFF444974),
                   elevation: 0,
-                  child: Icon(Icons.add_circle_outline_sharp),
+                  child: Icon(Icons.add_circle_outline_sharp, size: 35),
                   onPressed: () {
                     hrsValue = hrsValue == null ? 0 : hrsValue;
                     minValue = minValue == null ? 0 : minValue;
@@ -206,14 +220,17 @@ class _TimerModelState extends State<TimerModel> with TickerProviderStateMixin {
                   },
                 ),
                 FloatingActionButton(
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: Color(0xFF444974),
                   elevation: 0,
                   child: AnimatedBuilder(
                       animation: animationController,
                       builder: (_, Widget child) {
-                        return Icon(animationController.isAnimating
-                            ? Icons.pause
-                            : Icons.play_arrow);
+                        return Icon(
+                          animationController.isAnimating
+                              ? Icons.pause
+                              : Icons.play_arrow,
+                          size: 40,
+                        );
                       }),
                   onPressed: () {
                     if (animationController.isAnimating) {
@@ -231,9 +248,9 @@ class _TimerModelState extends State<TimerModel> with TickerProviderStateMixin {
                   },
                 ),
                 FloatingActionButton(
-                  backgroundColor: Theme.of(context).primaryColor,
+                  backgroundColor: Color(0xFF444974),
                   elevation: 0,
-                  child: Icon(Icons.refresh),
+                  child: Icon(Icons.refresh, size: 35),
                   onPressed: () {
                     setState(() {
                       if (animationController.isAnimating) {
