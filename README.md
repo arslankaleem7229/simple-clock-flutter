@@ -1,16 +1,21 @@
-# simple_clock_flutter
+# Simple Clock Flutter
 
-A new Flutter project.
+## Features
 
-## Getting Started
+- Digital and Analog Clock
+- Add/Delete Alarm
+- Timer
+- StopWatch
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+This app is open source with a [public repository][dill]
+ on GitHub.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Clock Screen  | Alarm Screen  | Timer Screen |
+| ------------ | ------------ | ------------ |
+| ![](https://github.com/arslankaleem7229/simple-clock-flutter/blob/main/assets/ScreenShots/Clock%20Screen.png?raw=true)  | ![](https://github.com/arslankaleem7229/simple-clock-flutter/blob/main/assets/ScreenShots/Alarm%20Screen.png?raw=true)  | ![](https://github.com/arslankaleem7229/simple-clock-flutter/blob/main/assets/ScreenShots/Timer%20Screen.png?raw=true)  |
+
+[//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
+
+   [dill]: <https://github.com/arslankaleem7229/simple-clock-flutter>
