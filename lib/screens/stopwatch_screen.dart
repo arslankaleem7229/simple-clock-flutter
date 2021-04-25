@@ -20,9 +20,6 @@ class _StateStopWatchView extends State<StopWatchView> {
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
     mode: StopWatchMode.countUp,
-    onChange: (value) => print('onChange $value'),
-    onChangeRawSecond: (value) => print('onChangeRawSecond $value'),
-    onChangeRawMinute: (value) => print('onChangeRawMinute $value'),
   );
 
   final _scrollController = ScrollController();
@@ -30,14 +27,6 @@ class _StateStopWatchView extends State<StopWatchView> {
   @override
   void initState() {
     super.initState();
-    _stopWatchTimer.rawTime.listen((value) =>
-        print('rawTime $value ${StopWatchTimer.getDisplayTime(value)}'));
-    _stopWatchTimer.minuteTime.listen((value) => print('minuteTime $value'));
-    _stopWatchTimer.secondTime.listen((value) => print('secondTime $value'));
-    _stopWatchTimer.records.listen((value) => print('records $value'));
-
-    /// Can be set preset time. This case is "00:01.23".
-    // _stopWatchTimer.setPresetTime(mSec: 1234);
   }
 
   @override
@@ -93,7 +82,6 @@ class _StateStopWatchView extends State<StopWatchView> {
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.easeOut);
                 });
-                print('Listen records. $value');
                 return ListView.builder(
                   controller: _scrollController,
                   scrollDirection: Axis.vertical,

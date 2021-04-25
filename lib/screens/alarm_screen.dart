@@ -33,7 +33,6 @@ class _AlarmScreenState extends State<AlarmScreen> {
   void initState() {
     _alarmTime = DateTime.now();
     _alarmHelper.initializeDatabase().then((value) {
-      print('-------Database Initialized-------');
       loadAlarms();
     });
     super.initState();

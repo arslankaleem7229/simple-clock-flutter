@@ -48,7 +48,6 @@ class ClockPainter extends CustomPainter {
   // 60 sec / min = 360/60 = 6 degree
   @override
   void paint(Canvas canvas, Size size) {
-    // print(datetime);
     double centerX = size.width / 2;
     double centerY = size.height / 2;
     Offset center = Offset(centerX, centerY);
