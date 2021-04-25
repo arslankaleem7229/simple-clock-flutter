@@ -340,8 +340,13 @@ class _AlarmScreenState extends State<AlarmScreen> {
                                                       _enableStatus,
                                                       "Enable")) {
                                                     status = 1;
-                                                  } else
+                                                  } else if (equalsIgnoreCase(
+                                                      _enableStatus,
+                                                      "Disable")) {
                                                     status = 0;
+                                                  } else {
+                                                    status = 1;
+                                                  }
                                                   _controller.clear();
                                                   onSaveAlarm(
                                                       title: _title,
