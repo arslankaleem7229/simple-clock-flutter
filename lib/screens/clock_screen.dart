@@ -38,13 +38,14 @@ class _ClockScreenState extends State<ClockScreen> {
         children: [
           Expanded(
               flex: 1,
-              // fit: FlexFit.loose,
               child: kText(
                   text: "Clock", fontWeight: FontWeight.w700, fontSize: 30)),
           Expanded(
             flex: 3,
             child: Align(
-                child: DigitalClockWidget(), alignment: Alignment.centerLeft),
+              child: DigitalClockWidget(),
+              alignment: Alignment.centerLeft,
+            ),
           ),
           kText(
               text: widget.formattedDate,
@@ -52,7 +53,6 @@ class _ClockScreenState extends State<ClockScreen> {
               fontWeight: FontWeight.w300),
           Expanded(
             flex: 6,
-            // fit: FlexFit.loose,
             child: Align(
               child: ClockModel(size: width / 1.5),
               alignment: Alignment.center,
@@ -60,7 +60,6 @@ class _ClockScreenState extends State<ClockScreen> {
           ),
           Expanded(
             flex: 4,
-            // fit: FlexFit.loose,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

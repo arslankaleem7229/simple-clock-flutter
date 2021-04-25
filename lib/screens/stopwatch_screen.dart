@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/stop_watch_timer.dart';
+import 'package:simple_clock_flutter/constants/floatingActionButtonWidget.dart';
 
 class StopWatchView extends StatefulWidget {
   static Future<void> navigatorPush(BuildContext context) async {
@@ -110,7 +111,6 @@ class _StateStopWatchView extends State<StopWatchView> {
           ),
         ),
 
-        /// Button
         Column(
           children: <Widget>[
             Padding(
@@ -118,25 +118,19 @@ class _StateStopWatchView extends State<StopWatchView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.lightBlue,
-                      elevation: 0,
-                      child: Text("Start"),
-                      onPressed: () async {
-                        _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-                      },
-                    ),
+                  expandedFloatingActionButton(
+                    widget: Text("Start"),
+                    backgroundColor: Colors.lightBlue,
+                    onClicked: () async {
+                      _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                    },
                   ),
-                  Expanded(
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.green,
-                      elevation: 0,
-                      child: Text("Stop"),
-                      onPressed: () async {
-                        _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-                      },
-                    ),
+                  expandedFloatingActionButton(
+                    widget: Text("Stop"),
+                    backgroundColor: Colors.green,
+                    onClicked: () async {
+                      _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                    },
                   ),
                 ],
               ),
@@ -145,25 +139,19 @@ class _StateStopWatchView extends State<StopWatchView> {
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 children: [
-                  Expanded(
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.red,
-                      elevation: 0,
-                      child: Text("Reset"),
-                      onPressed: () async {
-                        _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
-                      },
-                    ),
+                  expandedFloatingActionButton(
+                    widget: Text("Reset"),
+                    backgroundColor: Colors.red,
+                    onClicked: () async {
+                      _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+                    },
                   ),
-                  Expanded(
-                    child: FloatingActionButton(
-                      backgroundColor: Colors.deepPurpleAccent,
-                      elevation: 0,
-                      child: Text("Lap"),
-                      onPressed: () async {
-                        _stopWatchTimer.onExecute.add(StopWatchExecute.lap);
-                      },
-                    ),
+                  expandedFloatingActionButton(
+                    widget: Text("Lap"),
+                    backgroundColor: Colors.deepPurpleAccent,
+                    onClicked: () async {
+                      _stopWatchTimer.onExecute.add(StopWatchExecute.lap);
+                    },
                   ),
                 ],
               ),

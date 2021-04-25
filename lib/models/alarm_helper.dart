@@ -51,7 +51,7 @@ class AlarmHelper {
 
   void insertAlarm(AlarmInfo alarmInfo) async {
     var db = await this.database;
-    var result = await db.insert(tableAlarm, alarmInfo.toMap());
+    await db.insert(tableAlarm, alarmInfo.toMap());
   }
 
   Future<List<AlarmInfo>> getAlarms() async {

@@ -365,7 +365,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
                               },
                               child: Column(
                                 children: [
-                                  Image.asset('assets/add_alarm.png',
+                                  Image.asset('assets/icons/add_alarm.png',
                                       scale: 1.2),
                                   SizedBox(height: 10),
                                   kText(text: "Add Alarm", fontSize: 14),
