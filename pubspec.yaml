@@ -36,10 +36,13 @@ dependencies:
   intl : ^0.17.0
   simple_timer: ^2.0.0
   custom_switch_button: ^0.5.0
-
+  rxdart: ^0.26.0
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  pedantic_mono:
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

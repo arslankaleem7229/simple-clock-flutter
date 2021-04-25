@@ -9,6 +9,7 @@ import 'package:simple_clock_flutter/models/menu_info.dart';
 import 'package:simple_clock_flutter/constants/text_widget.dart';
 import 'package:simple_clock_flutter/screens/alarm_screen.dart';
 import 'package:simple_clock_flutter/screens/clock_screen.dart';
+import 'package:simple_clock_flutter/screens/stopwatch_screen.dart';
 import 'package:simple_clock_flutter/screens/timer_screen.dart';
 
 double width;
@@ -59,15 +60,7 @@ class _HomePageState extends State<HomePage> {
                           ? AlarmScreen()
                           : value.menuType == MenuType.timer
                               ? TimerScreen()
-                              : Container(
-                                  child: Center(
-                                    child: kText(
-                                      text: "StopWatch",
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                );
+                              : StopWatchView();
                 },
               ),
             ),
