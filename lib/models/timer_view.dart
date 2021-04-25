@@ -47,6 +47,7 @@ class _TimerModelState extends State<TimerModel> with TickerProviderStateMixin {
       child: Column(
         children: <Widget>[
           Expanded(
+            flex: 3,
             child: Align(
               alignment: FractionalOffset.center,
               child: AspectRatio(
@@ -74,14 +75,14 @@ class _TimerModelState extends State<TimerModel> with TickerProviderStateMixin {
                         children: <Widget>[
                           Text(
                             "Count Down",
-                            style: Theme.of(context).textTheme.headline4,
+                            style: Theme.of(context).textTheme.headline6,
                           ),
                           AnimatedBuilder(
                             animation: animationController,
                             builder: (_, Widget child) {
                               return Text(
                                 timerString,
-                                style: Theme.of(context).textTheme.headline2,
+                                style: Theme.of(context).textTheme.headline3,
                               );
                             },
                           ),
@@ -94,173 +95,200 @@ class _TimerModelState extends State<TimerModel> with TickerProviderStateMixin {
             ),
           ),
           kText(text: "Set Timer", fontSize: 20),
-          Container(
-            padding: EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(35),
-              gradient: LinearGradient(colors: GradientColors.sky),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 50.0,
-                  height: 100.0,
-                  child: ListWheelScrollView.useDelegate(
-                    squeeze: 0.5,
-                    itemExtent: 25.0,
-                    diameterRatio: 1.5,
+          Expanded(
+            flex: 1,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                gradient: LinearGradient(colors: GradientColors.sky),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.12,
+                      height: 50.0,
+                      child: ListWheelScrollView.useDelegate(
+                        squeeze: 0.5,
+                        itemExtent: 25.0,
+                        diameterRatio: 1.5,
 
-                    onSelectedItemChanged: (hrs) {
-                      setState(() {
-                        hrsValue = (hrs != null || hrs != 0) ? hrs : 0;
-                      });
-                    },
-                    controller: FixedExtentScrollController(initialItem: 00),
-                    // useMagnifier: true,
-                    childDelegate: ListWheelChildLoopingListDelegate(
-                      children: List<Widget>.generate(
-                        12,
-                        (int index) {
-                          return _TimeText(text: index.toString());
+                        onSelectedItemChanged: (hrs) {
+                          setState(() {
+                            hrsValue = (hrs != null || hrs != 0) ? hrs : 0;
+                          });
                         },
+                        controller:
+                            FixedExtentScrollController(initialItem: 00),
+                        // useMagnifier: true,
+                        childDelegate: ListWheelChildLoopingListDelegate(
+                          children: List<Widget>.generate(
+                            12,
+                            (int index) {
+                              return _TimeText(text: index.toString());
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 10.0),
-                kText(
-                    text: ':',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-                SizedBox(width: 10.0),
-                Container(
-                  width: 50.0,
-                  height: 100.0,
-                  child: ListWheelScrollView.useDelegate(
-                    diameterRatio: 1.5,
-                    onSelectedItemChanged: (min) {
-                      minValue = (min != null || min != 0) ? min : 0;
-                    },
-                    controller: FixedExtentScrollController(initialItem: 00),
-                    squeeze: 0.5,
-                    itemExtent: 25.0,
-                    // overAndUnderCenterOpacity: 0.5,
-                    clipBehavior: Clip.antiAlias,
-                    // useMagnifier: true,
-                    childDelegate: ListWheelChildLoopingListDelegate(
-                      children: List<Widget>.generate(
-                        60,
-                        (int index) {
-                          return _TimeText(text: index.toString());
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: kText(
+                          text: ':',
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.12,
+                      height: 50.0,
+                      child: ListWheelScrollView.useDelegate(
+                        diameterRatio: 1.5,
+                        onSelectedItemChanged: (min) {
+                          minValue = (min != null || min != 0) ? min : 0;
                         },
+                        controller:
+                            FixedExtentScrollController(initialItem: 00),
+                        squeeze: 0.5,
+                        itemExtent: 25.0,
+                        // overAndUnderCenterOpacity: 0.5,
+                        clipBehavior: Clip.antiAlias,
+                        // useMagnifier: true,
+                        childDelegate: ListWheelChildLoopingListDelegate(
+                          children: List<Widget>.generate(
+                            60,
+                            (int index) {
+                              return _TimeText(text: index.toString());
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 10.0),
-                kText(
-                    text: ':',
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
-                SizedBox(width: 10.0),
-                Container(
-                  width: 50.0,
-                  height: 100.0,
-                  child: ListWheelScrollView.useDelegate(
-                    childDelegate: ListWheelChildLoopingListDelegate(
-                      children: List<Widget>.generate(
-                        60,
-                        (int index) {
-                          return _TimeText(text: index.toString());
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: kText(
+                          text: ':',
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.12,
+                      height: 50.0,
+                      child: ListWheelScrollView.useDelegate(
+                        childDelegate: ListWheelChildLoopingListDelegate(
+                          children: List<Widget>.generate(
+                            60,
+                            (int index) {
+                              return _TimeText(text: index.toString());
+                            },
+                          ),
+                        ),
+                        diameterRatio: 1.5,
+                        onSelectedItemChanged: (sec) {
+                          secValue = (sec != null || sec != 0) ? sec : 0;
                         },
+                        controller:
+                            FixedExtentScrollController(initialItem: 00),
+                        squeeze: 0.5,
+                        itemExtent: 25.0,
+                        // useMagnifier: true,
                       ),
                     ),
-                    diameterRatio: 1.5,
-                    onSelectedItemChanged: (sec) {
-                      secValue = (sec != null || sec != 0) ? sec : 0;
-                    },
-                    controller: FixedExtentScrollController(initialItem: 00),
-                    squeeze: 0.5,
-                    itemExtent: 25.0,
-                    // useMagnifier: true,
                   ),
-                ),
-                SizedBox(width: 10.0),
-              ],
+                ],
+              ),
             ),
           ),
-          SizedBox(height: 50),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.amber,
-              borderRadius: BorderRadius.circular(35),
-            ),
-            padding: EdgeInsets.all(8.0),
-            margin: EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                FloatingActionButton(
-                  backgroundColor: Color(0xFF444974),
-                  elevation: 0,
-                  child: Icon(Icons.add_circle_outline_sharp, size: 35),
-                  onPressed: () {
-                    hrsValue = hrsValue == null ? 0 : hrsValue;
-                    minValue = minValue == null ? 0 : minValue;
-                    secValue = secValue == null ? 0 : secValue;
-                    setState(() {
-                      setTimerDuration(
-                          timerseconds: secValue,
-                          timerhrs: hrsValue,
-                          timerminutes: minValue);
-                    });
-                  },
+          Expanded(
+            flex: 1,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.amber,
+                borderRadius: BorderRadius.circular(35),
+              ),
+              padding: EdgeInsets.all(8.0),
+              margin: EdgeInsets.all(8.0),
+              child: Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Expanded(
+                      child: FloatingActionButton(
+                        backgroundColor: Color(0xFF444974),
+                        elevation: 0,
+                        child: Icon(Icons.add_circle_outline_sharp, size: 35),
+                        onPressed: () {
+                          hrsValue = hrsValue == null ? 0 : hrsValue;
+                          minValue = minValue == null ? 0 : minValue;
+                          secValue = secValue == null ? 0 : secValue;
+                          setState(() {
+                            setTimerDuration(
+                                timerseconds: secValue,
+                                timerhrs: hrsValue,
+                                timerminutes: minValue);
+                          });
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: FloatingActionButton(
+                        backgroundColor: Color(0xFF444974),
+                        elevation: 0,
+                        child: AnimatedBuilder(
+                            animation: animationController,
+                            builder: (_, Widget child) {
+                              return Icon(
+                                animationController.isAnimating
+                                    ? Icons.pause
+                                    : Icons.play_arrow,
+                                size: 40,
+                              );
+                            }),
+                        onPressed: () {
+                          if (animationController.isAnimating) {
+                            setState(() {
+                              animationController.stop();
+                            });
+                          } else {
+                            setState(() {
+                              animationController.reverse(
+                                  from: animationController.value == 0.0
+                                      ? 1.0
+                                      : animationController.value);
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: FloatingActionButton(
+                        backgroundColor: Color(0xFF444974),
+                        elevation: 0,
+                        child: Icon(Icons.refresh, size: 35),
+                        onPressed: () {
+                          setState(() {
+                            if (animationController.isAnimating) {
+                              animationController.stop();
+                            }
+                            setTimerDuration(timerseconds: 0);
+                          });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                FloatingActionButton(
-                  backgroundColor: Color(0xFF444974),
-                  elevation: 0,
-                  child: AnimatedBuilder(
-                      animation: animationController,
-                      builder: (_, Widget child) {
-                        return Icon(
-                          animationController.isAnimating
-                              ? Icons.pause
-                              : Icons.play_arrow,
-                          size: 40,
-                        );
-                      }),
-                  onPressed: () {
-                    if (animationController.isAnimating) {
-                      setState(() {
-                        animationController.stop();
-                      });
-                    } else {
-                      setState(() {
-                        animationController.reverse(
-                            from: animationController.value == 0.0
-                                ? 1.0
-                                : animationController.value);
-                      });
-                    }
-                  },
-                ),
-                FloatingActionButton(
-                  backgroundColor: Color(0xFF444974),
-                  elevation: 0,
-                  child: Icon(Icons.refresh, size: 35),
-                  onPressed: () {
-                    setState(() {
-                      if (animationController.isAnimating) {
-                        animationController.stop();
-                      }
-                      setTimerDuration(timerseconds: 0);
-                    });
-                  },
-                ),
-              ],
+              ),
             ),
           ),
         ],
